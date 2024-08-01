@@ -1,4 +1,4 @@
-import { KeycloakProfile } from "keycloak-js";
+import { KeycloakTokenParsed } from "keycloak-js";
 import { createContext, useContext, useEffect, useState } from "react";
 import Loader from "../Components/Loader";
 import client from "../Services/keycloak";
@@ -7,7 +7,7 @@ import { Button } from "react-bootstrap";
 type authContextTypes = {
   token: string | null;
   isLogin: boolean;
-  profile: KeycloakProfile | undefined;
+  profile: KeycloakTokenParsed | undefined;
 };
 
 const authContext = createContext({} as authContextTypes);
@@ -23,7 +23,7 @@ export default function AuthContextProvider({
 }) {
   const [token, setToken] = useState<string | null>(null);
   const [isLogin, setLogin] = useState<boolean>(false);
-  const [profile, setProfile] = useState<KeycloakProfile>();
+  const [profile, setProfile] = useState<KeycloakTokenParsed>();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -35,7 +35,9 @@ export default function AuthContextProvider({
         })
         .then((res) => {
           setLogin(res);
-          setProfile(client.profile);
+          console.log(res);
+          console.log(client);
+          setProfile(client.idTokenParsed);
           setToken(client.token!);
         })
         .catch((e) => {
@@ -54,6 +56,7 @@ export default function AuthContextProvider({
     return (
       <div className="pageLoader">
         <Loader />
+        <p>Loading...</p>
       </div>
     );
   }
