@@ -8,6 +8,7 @@ type authContextTypes = {
   token: string | null;
   isLogin: boolean;
   profile: KeycloakTokenParsed | undefined;
+  uid: string;
 };
 
 const authContext = createContext({} as authContextTypes);
@@ -26,6 +27,7 @@ export default function AuthContextProvider({
   const [profile, setProfile] = useState<KeycloakTokenParsed>();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [uid, setUid] = useState("");
 
   useEffect(() => {
     if (!isLogin) {
@@ -35,10 +37,11 @@ export default function AuthContextProvider({
         })
         .then((res) => {
           setLogin(res);
-          console.log(res);
-          console.log(client);
           setProfile(client.idTokenParsed);
           setToken(client.token!);
+          client.loadUserProfile().then((profile) => {
+            setUid(profile.id!);
+          });
         })
         .catch((e) => {
           console.log(e);
@@ -71,7 +74,7 @@ export default function AuthContextProvider({
   }
 
   return (
-    <authContext.Provider value={{ token, isLogin, profile }}>
+    <authContext.Provider value={{ token, isLogin, profile, uid }}>
       {children}
     </authContext.Provider>
   );
