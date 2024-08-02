@@ -15,7 +15,25 @@ Experience seamless collaboration with our Real-Time Collaborative Whiteboard, d
 - **Tech Stack:**  Built with the Express, React, Node.js and TypeScript for type safety.
 
 
-## Installation
+## Local Development Setup (Docker)
+
+INFO: for setping local development we need to setup first keycloak before starting client 
+
+1. clone the repo
+
+```
+git clone https://github.com/Aniket897/collabe
+```
+
+2. build
+```
+docker-compose build
+```
+
+3. start the services
+```
+npm run start:all
+```
 
 
 # Screen-Shots
