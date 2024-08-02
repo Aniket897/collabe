@@ -1,7 +1,8 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { Socket } from "socket.io-client";
 import { initSocket } from "../Services/socket-io";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 type socketContextType = {
   handleSocketConnection: () => void;
@@ -24,6 +25,12 @@ export default function SocketContextProvider({
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    return () => {
+      socket?.disconnect();
+    }
+  } , []);
+
   const handleSocketConnection = async () => {
     setLoading(true);
     const _socket = await initSocket();
@@ -34,7 +41,7 @@ export default function SocketContextProvider({
   };
 
   function handleErrors(e: string) {
-    console.log("socket error", e);
+    toast.error(e);
     navigate("/");
   }
 

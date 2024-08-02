@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "client:start": "docker-compose up client",
+    "server:start": "docker-compose up server",
+    "keycloak:start": "docker-compose up keycloak",
+    "start:all": "docker-compose up"
+  }
+}

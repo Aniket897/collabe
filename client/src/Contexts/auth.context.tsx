@@ -49,6 +49,7 @@ export default function AuthContextProvider({
             });
         })
         .catch((e) => {
+          setLoading(false);
           console.log(e);
           setError(true);
         });
@@ -73,6 +74,7 @@ export default function AuthContextProvider({
   if (error) {
     return (
       <div className="authErrorPage">
+        <h1>☹️ Keycloak server down</h1>
         <p>Failed to Authenticated please try to refresh page</p>
         <Button onClick={handleRefreshPage}>Refresh</Button>
       </div>

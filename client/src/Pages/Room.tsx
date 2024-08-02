@@ -13,7 +13,6 @@ import Chat from "../Components/Chat";
 const Room = () => {
   const [loading, setLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
-
   const { socket, handleSocketConnection } = useSocket();
   const sessionId = searchParams.get("sessionId");
   const { uid, profile } = useAuth();

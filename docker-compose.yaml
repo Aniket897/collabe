@@ -1,0 +1,33 @@
+version: '3.5'
+
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - '5173:5173'
+    depends_on:
+      - keycloak
+    environment:
+      - VITE_SERVER_URL=http://localhost:8080
+      - VITE_KEYCLOACK_URL=http://localhost:4000
+      - REACT_APP_KEYCLOAK_REALM=myrealm
+      - REACT_APP_KEYCLOAK_CLIENT_ID=myclient
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080" 
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.2
+    ports:
+      - "4000:8080"
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    command:
+      - start-dev
