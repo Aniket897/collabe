@@ -53,9 +53,7 @@ const Room = () => {
         toast.success("Room Joined Successfully");
       });
 
-      socket.on("drawing", ({ userId, data }) => {
-        console.log(userId);
-        console.log(data);
+      socket.on("drawing", ({ data }) => {
         setElements(data);
       });
     }

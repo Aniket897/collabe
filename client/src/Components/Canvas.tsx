@@ -6,6 +6,7 @@ import { RoughGenerator } from "roughjs/bin/generator";
 import { RoughCanvas } from "roughjs/bin/canvas";
 import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../Contexts/auth.context";
+import Cursors from "./Cursors";
 
 const generator = new RoughGenerator();
 
@@ -30,8 +31,11 @@ const Canvas: React.FC<CanvasProps> = ({
   socket,
 }) => {
   const [isDrawing, setIsDrawing] = useState(false);
+  const [cursors, setCursors] = useState<{
+    [userId: string]: { x: number; y: number; username: string };
+  }>({});
   const [searchParamas] = useSearchParams();
-  const { uid } = useAuth();
+  const { uid, profile } = useAuth();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -57,6 +61,8 @@ const Canvas: React.FC<CanvasProps> = ({
       ctx.current.strokeStyle = color;
     }
   }, [color]);
+
+  // handling real time cursors
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     const { offsetX, offsetY } = e.nativeEvent;
@@ -144,6 +150,16 @@ const Canvas: React.FC<CanvasProps> = ({
       sessionId: searchParamas.get("sessionId"),
       userId: uid,
     });
+
+    // emit real time cursor
+
+    socket.emit("cursor-move", {
+      userId: uid,
+      username: profile?.given_name,
+      x: offsetX,
+      y: offsetY,
+      sessionId: searchParamas.get("sessionId"),
+    });
   };
 
   const handleMouseUp = () => {
@@ -167,6 +183,7 @@ const Canvas: React.FC<CanvasProps> = ({
       }}
     >
       <canvas ref={canvasRef} />
+      <Cursors />
     </div>
   );
 };

@@ -41,6 +41,7 @@ io.on("connection", (socket) => {
       users: [{ userId, username, socketId: socket.id }],
     };
     map.set(newRoomID, newRoom);
+    socket.join(newRoomID);
     io.to(socket.id).emit("joined", {
       sessionId: newRoomID,
       data: [],
@@ -53,6 +54,7 @@ io.on("connection", (socket) => {
       const room = map.get(sessionId);
       room.users.push({ userId, username, socketId: socket.id });
       map.set(sessionId, room);
+      socket.join(sessionId);
 
       io.to(socket.id).emit("joined", {
         sessionId,
@@ -129,6 +131,28 @@ io.on("connection", (socket) => {
         messages: room.messages,
       });
     }
+  });
+
+  // handling cursors
+  socket.on("cursor-move", ({ username, userId, x, y, sessionId }) => {
+    const room = map.get(sessionId);
+    if (room) {
+      room.users.forEach(
+        (user: { userId: any; socketId: string | string[] }) => {
+          if (user.userId !== userId) {
+            io.to(user.socketId).emit("cursor-move", {
+              username,
+              userId,
+              x,
+              y,
+            });
+          }
+        }
+      );
+    }
+    socket.broadcast
+      .to(sessionId)
+      .emit("cursor-move", { userId, x, y, username });
   });
 
   socket.on("disconnect", () => {
