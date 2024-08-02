@@ -46,7 +46,51 @@ io.on("connection", (socket) => {
     });
   });
 
-  // socket.on("join", ({ userId, sessionId }) => {});
+  socket.on("join", ({ userId, username, sessionId }) => {
+    if (map.has(sessionId)) {
+      const room = map.get(sessionId);
+      room.users.push({ userId, username, socketId: socket.id });
+      map.set(sessionId, room);
+
+      io.to(socket.id).emit("joined", {
+        sessionId,
+      });
+
+      room.users.forEach((user: { socketId: string | string[] }) => {
+        if (user.socketId !== socket.id) {
+          io.to(user.socketId).emit("user-joined", {
+            userId,
+            username,
+          });
+        }
+      });
+    } else {
+      console.error(`Session ${sessionId} not found`);
+      io.to(socket.id).emit("error", {
+        message: "Session not found",
+      });
+    }
+  });
+
+  socket.on("drawing", ({ data, sessionId, userId }) => {
+    console.log(userId, "is drawing");
+    const room = map.get(sessionId);
+
+    if (room) {
+      room.data = data;
+      map.set(sessionId, room);
+
+      room.users.forEach((user: { socketId: string | string[] }) => {
+        // console.log(user)
+        if (user.socketId !== socket.id) {
+          io.to(user.socketId).emit("drawing", {
+            userId,
+            data,
+          });
+        }
+      });
+    }
+  });
 
   // disconnetion
   socket.on("disconnect", () => {

@@ -39,21 +39,27 @@ export default function AuthContextProvider({
           setLogin(res);
           setProfile(client.idTokenParsed);
           setToken(client.token!);
-          client.loadUserProfile().then((profile) => {
-            setUid(profile.id!);
-          });
+          client
+            .loadUserProfile()
+            .then((profile) => {
+              setUid(profile.id!);
+            })
+            .finally(() => {
+              setLoading(false);
+            });
         })
         .catch((e) => {
           console.log(e);
           setError(true);
-        })
-        .finally(() => {
-          setLoading(false);
         });
     } else {
       setLoading(false);
     }
   }, []);
+
+  const handleRefreshPage = () => {
+    window.location.reload();
+  };
 
   if (loading) {
     return (
@@ -68,7 +74,7 @@ export default function AuthContextProvider({
     return (
       <div className="authErrorPage">
         <p>Failed to Authenticated please try to refresh page</p>
-        <Button>Refresh</Button>
+        <Button onClick={handleRefreshPage}>Refresh</Button>
       </div>
     );
   }

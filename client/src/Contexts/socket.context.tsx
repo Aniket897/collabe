@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { Socket } from "socket.io-client";
 import { initSocket } from "../Services/socket-io";
 import { useNavigate } from "react-router-dom";
