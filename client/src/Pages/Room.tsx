@@ -4,11 +4,11 @@ import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../Contexts/auth.context";
 import Loader from "../Components/Loader";
 import { CanvasElement } from "../types";
-import Canvas from "../Components/Canvas";
 import { toast } from "sonner";
-import Tools from "../Components/Tools";
-import Header from "../Components/Header";
-import Chat from "../Components/Chat";
+import Tools from "../Components/room/whiteboard/Tools";
+import Chat from "../Components/room/Chat";
+import Canvas from "../Components/room/whiteboard/Canvas";
+import Header from "../Components/room/Header";
 
 const Room = () => {
   const [loading, setLoading] = useState(true);

@@ -1,9 +1,9 @@
 import { MessageCircle, Send } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Message } from "../types";
-import { useSocket } from "../Contexts/socket.context";
+import { Message } from "../../types";
+import { useSocket } from "../../Contexts/socket.context";
 import { useSearchParams } from "react-router-dom";
-import { useAuth } from "../Contexts/auth.context";
+import { useAuth } from "../../Contexts/auth.context";
 import { toast } from "sonner";
 
 const MessageContainer = ({ message }: { message: Message }) => {
@@ -96,6 +96,8 @@ const Chat = () => {
           </div>
           <div className="chat_footer">
             <input
+              className="p-2"
+              placeholder="type a message..."
               type="text"
               value={text}
               onChange={(e) => setText(e.target.value)}

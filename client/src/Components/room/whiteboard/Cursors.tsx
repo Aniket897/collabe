@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useSocket } from "../Contexts/socket.context";
 import { TextCursorIcon } from "lucide-react";
+import { useSocket } from "../../../Contexts/socket.context";
 
 const Cursors = () => {
   const [cursors, setCursors] = useState<{

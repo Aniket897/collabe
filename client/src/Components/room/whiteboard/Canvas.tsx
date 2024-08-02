@@ -1,11 +1,11 @@
 import React, { useEffect, useLayoutEffect, useState, RefObject } from "react";
 RoughGenerator;
 import { Socket } from "socket.io-client";
-import { CanvasElement } from "../types";
 import { RoughGenerator } from "roughjs/bin/generator";
 import { RoughCanvas } from "roughjs/bin/canvas";
 import { useSearchParams } from "react-router-dom";
-import { useAuth } from "../Contexts/auth.context";
+import { CanvasElement } from "../../../types";
+import { useAuth } from "../../../Contexts/auth.context";
 import Cursors from "./Cursors";
 
 const generator = new RoughGenerator();
@@ -31,9 +31,6 @@ const Canvas: React.FC<CanvasProps> = ({
   socket,
 }) => {
   const [isDrawing, setIsDrawing] = useState(false);
-  const [cursors, setCursors] = useState<{
-    [userId: string]: { x: number; y: number; username: string };
-  }>({});
   const [searchParamas] = useSearchParams();
   const { uid, profile } = useAuth();
 

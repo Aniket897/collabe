@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import InviteButton from "./InviteButton";
-import { User } from "../types";
-import { useSocket } from "../Contexts/socket.context";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
-import Loader from "./Loader";
+import { User } from "../../types";
+import { useSocket } from "../../Contexts/socket.context";
+import Loader from "../Loader";
+import InviteButton from "./InviteButton";
 
 const Avatar = ({ username }: { username: string }) => {
   return <div className="avatar">{username.slice(0, 2).toUpperCase()}</div>;
