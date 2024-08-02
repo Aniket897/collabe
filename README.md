@@ -15,6 +15,9 @@ Experience seamless collaboration with our Real-Time Collaborative Whiteboard, d
 - **Tech Stack:**  Built with the Express, React, Node.js and TypeScript for type safety.
 
 
+## Installation
+
+
 # Screen-Shots
 ## AuthPage
 ![screencapture-localhost-4000-realms-myrealm-protocol-openid-connect-auth-2024-08-02-14_07_08](https://github.com/user-attachments/assets/5d1af291-9b48-4275-8a56-32b2c6f0f709)
@@ -35,3 +38,9 @@ Experience seamless collaboration with our Real-Time Collaborative Whiteboard, d
 ![screencapture-localhost-5173-room-2024-08-02-18_12_49](https://github.com/user-attachments/assets/a4a9596c-cd53-408a-afd8-a053f824ccc0)
 
 
+## Author
+
+- Aniket Kangane
+- Email: aniketbkangane9637@gmail.com
+- linkdin: https://www.linkedin.com/in/aniket-kangane//
+- portfolio: https://aniket-kangane.vercel.app//
