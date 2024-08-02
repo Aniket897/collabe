@@ -78,3 +78,108 @@ body {
 .canvaContainer {
   background: #f6f0f0;
 }
+
+.header {
+  top: 0px;
+  margin: 10px 20px;
+  width: 95%;
+  padding: 10px;
+  background: white;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: blue;
+  color: white;
+  border: 2px solid white;
+}
+
+.nlm {
+  margin-left: -15px;
+}
+
+.chat {
+  bottom: 30px;
+  right: 30px;
+}
+
+.chat .chatBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: blue;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.chat .chat_box {
+  position: absolute;
+  bottom: 40px;
+  right: 30px;
+  width: 300px;
+  max-width: 80vw;
+  height: 400px;
+  display: flex;
+  border-radius: 10px;
+  flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.chat_header {
+  color: white;
+  background-color: blue;
+}
+
+.chat_container {
+  flex: 1;
+  overflow-y: scroll;
+}
+
+.chat_container::-webkit-scrollbar {
+  display: none;
+}
+
+.message {
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.message_text {
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.chat_footer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  gap: 10px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+.chat_footer input {
+  border-radius: 10px;
+  border: 1px solid blue;
+  flex: 1;
+}
+
+.chat_footer button {
+  border: none;
+  background-color: blue;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 5px;
+  width: 40px;
+}

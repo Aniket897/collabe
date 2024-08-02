@@ -7,21 +7,23 @@ import { CanvasElement } from "../types";
 import Canvas from "../Components/Canvas";
 import { toast } from "sonner";
 import Tools from "../Components/Tools";
+import Header from "../Components/Header";
+import Chat from "../Components/Chat";
 
 const Room = () => {
   const [loading, setLoading] = useState(true);
-  const { socket, handleSocketConnection } = useSocket();
-  const { uid, profile } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const { socket, handleSocketConnection } = useSocket();
   const sessionId = searchParams.get("sessionId");
+  const { uid, profile } = useAuth();
 
-  // new logic
+  // for whiteboard
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const ctx = useRef<CanvasRenderingContext2D | null>(null);
-  const [color, setColor] = useState("#000000");
   const [elements, setElements] = useState<CanvasElement[]>([]);
   const [history, setHistory] = useState<CanvasElement[]>([]);
+  const [color, setColor] = useState("#000000");
   const [tool, setTool] = useState("pencil");
 
   useEffect(() => {
@@ -43,16 +45,13 @@ const Room = () => {
         });
       }
 
-      socket.on("joined", ({ sessionId }) => {
+      socket.on("joined", ({ sessionId, data }) => {
         const newSearchParams = new URLSearchParams(searchParams.toString());
         newSearchParams.set("sessionId", sessionId);
         setSearchParams(newSearchParams);
+        setElements(data);
         setLoading(false);
         toast.success("Room Joined Successfully");
-      });
-
-      socket.on("user-joined", ({ username }) => {
-        toast.info(`${username} joined`);
       });
 
       socket.on("drawing", ({ userId, data }) => {
@@ -64,7 +63,9 @@ const Room = () => {
     return () => {
       if (socket) {
         socket.off("create");
+        socket.off("join");
         socket.off("joined");
+        socket.off("drawing");
       }
     };
   }, [socket]);
@@ -129,6 +130,8 @@ const Room = () => {
           setTool(item);
         }}
       />
+      <Header />
+      <Chat />
     </div>
   );
 };

@@ -25,27 +25,29 @@ const io = new Server(server, {
   },
 });
 
-// temp map
+// temp map for storing sessions
 const map = new Map();
 
 io.on("connection", (socket) => {
   console.log("new connection", socket.id);
 
+  // creating a new room
   socket.on("create", ({ userId, username }) => {
     const newRoomID = v4();
     const newRoom = {
       owner: userId,
       data: [],
+      messages: [],
       users: [{ userId, username, socketId: socket.id }],
     };
-
-    console.log(newRoomID, newRoom);
     map.set(newRoomID, newRoom);
     io.to(socket.id).emit("joined", {
       sessionId: newRoomID,
+      data: [],
     });
   });
 
+  // joining existing room
   socket.on("join", ({ userId, username, sessionId }) => {
     if (map.has(sessionId)) {
       const room = map.get(sessionId);
@@ -54,26 +56,26 @@ io.on("connection", (socket) => {
 
       io.to(socket.id).emit("joined", {
         sessionId,
+        data: room.data,
+        users: room.users,
       });
 
       room.users.forEach((user: { socketId: string | string[] }) => {
         if (user.socketId !== socket.id) {
           io.to(user.socketId).emit("user-joined", {
-            userId,
-            username,
+            user: { userId, username, sessionId },
           });
         }
       });
     } else {
-      console.error(`Session ${sessionId} not found`);
       io.to(socket.id).emit("error", {
         message: "Session not found",
       });
     }
   });
 
+  // drawing on whiteboard
   socket.on("drawing", ({ data, sessionId, userId }) => {
-    console.log(userId, "is drawing");
     const room = map.get(sessionId);
 
     if (room) {
@@ -81,7 +83,6 @@ io.on("connection", (socket) => {
       map.set(sessionId, room);
 
       room.users.forEach((user: { socketId: string | string[] }) => {
-        // console.log(user)
         if (user.socketId !== socket.id) {
           io.to(user.socketId).emit("drawing", {
             userId,
@@ -92,9 +93,69 @@ io.on("connection", (socket) => {
     }
   });
 
-  // disconnetion
+  // getting all connected users to a session
+  socket.on("get-connected-users", ({ sessionId }) => {
+    const room = map.get(sessionId);
+    if (room) {
+      io.to(socket.id).emit("get-connected-users", {
+        users: room.users,
+      });
+    }
+  });
+
+  // handling Message
+  socket.on("send-message", ({ userId, username, sessionId, text }) => {
+    const room = map.get(sessionId);
+    if (room) {
+      room.messages = [...room.messages, { userId, username, sessionId, text }];
+      map.set(sessionId, room);
+
+      room.users.forEach((user: { socketId: string | string[] }) => {
+        if (user.socketId !== socket.id) {
+          io.to(user.socketId).emit("new-message", {
+            username,
+            text,
+          });
+        }
+      });
+    }
+  });
+
+  // getting all existing messages
+  socket.on("sync-messages", ({ sessionId }) => {
+    const room = map.get(sessionId);
+    if (room) {
+      io.to(socket.id).emit("sync-messages", {
+        messages: room.messages,
+      });
+    }
+  });
+
   socket.on("disconnect", () => {
     console.log("user disconnected", socket.id);
+
+    map.forEach((room, sessionId) => {
+      const userIndex = room.users.findIndex(
+        (user: { socketId: string }) => user.socketId === socket.id
+      );
+      if (userIndex !== -1) {
+        const user = room.users.splice(userIndex, 1)[0];
+        map.set(sessionId, room);
+
+        room.users.forEach((remainingUser: { socketId: string | string[] }) => {
+          io.to(remainingUser.socketId).emit("user-left", {
+            userId: user.userId,
+            username: user.username,
+            sessionId,
+          });
+        });
+
+        // Remove the room if no users are left
+        if (room.users.length === 0) {
+          map.delete(sessionId);
+        }
+      }
+    });
   });
 });
 

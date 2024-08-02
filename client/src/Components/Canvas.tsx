@@ -48,7 +48,6 @@ const Canvas: React.FC<CanvasProps> = ({
         context.lineWidth = 5;
         context.lineCap = "round";
         ctx.current.setTransform(1, 0, 0, 1, 0, 0);
-        // context.scale(2, 2);
       }
     }
   }, [canvasRef, color, ctx]);

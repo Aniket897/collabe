@@ -15,4 +15,17 @@ export type LineOrRectElement = {
   element: "line" | "rect";
 };
 
+export type User = {
+  userId: string;
+  username: string;
+  socketId: string;
+};
+
+
+
+export type Message = {
+  username : string;
+  text : string
+}
+
 export type CanvasElement = PencilElement | LineOrRectElement;

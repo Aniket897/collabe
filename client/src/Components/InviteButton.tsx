@@ -1,15 +1,25 @@
+import { useState } from "react";
 import { Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const InviteButton = () => {
-  const { sessionId } = useParams();
+  const [copied, setIsCopied] = useState(false);
+  const [searchParams] = useSearchParams();
 
   const handleCopyUrl = () => {
+    setIsCopied(true);
     navigator.clipboard.writeText(
-      `http://localhost:5173/room?invite=${sessionId}`
+      `${window.location.origin}/room?sessionId=${searchParams.get("sessionId")}`
     );
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 1000);
   };
-  return <Button onClick={handleCopyUrl}>Invite Peoples</Button>;
+  return (
+    <Button onClick={handleCopyUrl}>
+      {copied ? "Invite Url Copied" : "Copy Invite Url"}
+    </Button>
+  );
 };
 
 export default InviteButton;
