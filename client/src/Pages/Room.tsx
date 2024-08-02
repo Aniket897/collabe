@@ -5,6 +5,8 @@ import { useAuth } from "../Contexts/auth.context";
 import Loader from "../Components/Loader";
 import { CanvasElement } from "../types";
 import Canvas from "../Components/Canvas";
+import { toast } from "sonner";
+import Tools from "../Components/Tools";
 
 const Room = () => {
   const [loading, setLoading] = useState(true);
@@ -46,10 +48,11 @@ const Room = () => {
         newSearchParams.set("sessionId", sessionId);
         setSearchParams(newSearchParams);
         setLoading(false);
+        toast.success("Room Joined Successfully");
       });
 
       socket.on("user-joined", ({ username }) => {
-        alert(`${username} joined`);
+        toast.info(`${username} joined`);
       });
 
       socket.on("drawing", ({ userId, data }) => {
@@ -71,7 +74,7 @@ const Room = () => {
       const canvas = canvasRef.current;
       const context = canvas.getContext("2d");
       if (context) {
-        context.fillStyle = "white";
+        context.fillStyle = "#f6f0f0";
         context.fillRect(0, 0, canvas.width, canvas.height);
       }
       setElements([]);
@@ -112,6 +115,19 @@ const Room = () => {
         elements={elements}
         tool={tool}
         socket={socket!}
+      />
+      <Tools
+        current={tool}
+        handleClear={clearCanvas}
+        handleRedo={redo}
+        handleUndo={undo}
+        color={color}
+        setColor={(color) => {
+          setColor(color);
+        }}
+        setActive={(item) => {
+          setTool(item);
+        }}
       />
     </div>
   );

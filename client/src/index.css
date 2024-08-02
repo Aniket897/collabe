@@ -8,6 +8,7 @@
 
 body {
   background-color: #f3f4f6;
+  overflow: hidden;
 }
 
 .pageLoader {
@@ -38,4 +39,42 @@ body {
   color: white;
   box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px,
     rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+}
+
+.tools {
+  top: 80px;
+  width: 70px;
+  left: 20px;
+  padding: 5px;
+}
+
+.toolItem {
+  padding: 5px;
+  width: 100%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.toolItem:hover {
+  background-color: rgba(51, 51, 143, 0.336);
+  color: blue;
+}
+
+.activeTool {
+  background-color: rgba(51, 51, 143, 0.336);
+  color: blue;
+}
+
+.toolItem p {
+  font-size: 10px;
+}
+
+.canvaContainer {
+  background: #f6f0f0;
 }

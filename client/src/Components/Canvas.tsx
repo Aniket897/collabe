@@ -36,17 +36,19 @@ const Canvas: React.FC<CanvasProps> = ({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas) {
-      canvas.height = window.innerHeight * 2;
-      canvas.width = window.innerWidth * 2;
-      canvas.style.width = `${window.innerWidth}px`;
-      canvas.style.height = `${window.innerHeight}px`;
+      const canvasWidth = window.innerWidth;
+      const canvasHeight = window.innerHeight;
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+
       const context = canvas.getContext("2d");
       if (context) {
+        ctx.current = context;
         context.strokeStyle = color;
         context.lineWidth = 5;
         context.lineCap = "round";
-        context.scale(2, 2);
-        ctx.current = context;
+        ctx.current.setTransform(1, 0, 0, 1, 0, 0);
+        // context.scale(2, 2);
       }
     }
   }, [canvasRef, color, ctx]);
@@ -156,11 +158,14 @@ const Canvas: React.FC<CanvasProps> = ({
 
   return (
     <div
-      className="col-md-8 overflow-hidden border border-dark px-0 mx-auto mt-3"
-      style={{ height: "500px" }}
+      className="overflow-hidden mx-auto canvaContainer"
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
+      style={{
+        width: "100%",
+        height: "100%",
+      }}
     >
       <canvas ref={canvasRef} />
     </div>
