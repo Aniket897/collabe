@@ -9,8 +9,31 @@ Experience seamless collaboration with our Real-Time Collaborative Whiteboard, d
 - **User Authentication:** Secure access with Keycloak authentication.
 
 - **Integrated Chat:** Communicate in real-time with team members directly within the application.
+  
+- **Real Time Cursors:** See cursors of your teamates in real time.
 
 - **Tech Stack:**  Built with the Express, React, Node.js and TypeScript for type safety.
+
+
+## Local Development Setup (Docker)
+
+INFO: for setping local development we need to setup first keycloak before starting client 
+
+1. clone the repo
+
+```
+git clone https://github.com/Aniket897/collabe
+```
+
+2. build
+```
+docker-compose build
+```
+
+3. start the services
+```
+npm run start:all
+```
 
 
 # Screen-Shots
@@ -29,6 +52,13 @@ Experience seamless collaboration with our Real-Time Collaborative Whiteboard, d
 ## Real-Time-Chats
 ![Screenshot (22)](https://github.com/user-attachments/assets/d5cec8a2-6df3-4173-a02d-6159515af619)
 
+## Real-Time-Cursors
+![screencapture-localhost-5173-room-2024-08-02-18_12_49](https://github.com/user-attachments/assets/a4a9596c-cd53-408a-afd8-a053f824ccc0)
 
 
+## Author
 
+- Aniket Kangane
+- Email: aniketbkangane9637@gmail.com
+- linkdin: https://www.linkedin.com/in/aniket-kangane//
+- portfolio: https://aniket-kangane.vercel.app//
