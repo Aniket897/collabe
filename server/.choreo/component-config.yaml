@@ -1,0 +1,13 @@
+component:
+  name: your-component-name
+  runtime: nodejs
+  source:
+    git:
+      url: https://github.com/your-repo/your-project.git
+      branch: main
+  build:
+    command: |
+      npm install
+      npm run build
+  run:
+    command: npm start
