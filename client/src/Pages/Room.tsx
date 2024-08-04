@@ -100,7 +100,14 @@ const Room = () => {
   };
 
   if (loading) {
-    return <Loader />;
+    return (
+      <div className="pageLoader">
+        <Loader />
+        <p style={{ fontSize: "12px" }}>
+          using free services it might take upto 60 sec to load
+        </p>
+      </div>
+    );
   }
 
   return (

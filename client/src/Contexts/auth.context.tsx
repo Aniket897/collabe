@@ -33,11 +33,12 @@ export default function AuthContextProvider({
     if (!isLogin) {
       client
         .init({
-          checkLoginIframe : false,
+          // checkLoginIframe : false,
           onLoad: "login-required",
         })
         .then((res) => {
           setLogin(res);
+          console.log(res)
           setProfile(client.idTokenParsed);
           setToken(client.token!);
           client
@@ -57,6 +58,13 @@ export default function AuthContextProvider({
     } else {
       setLoading(false);
     }
+  }, []);
+
+  // starting backend service
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_SERVER_URL}/health`).then((res) => {
+      console.log(res.json());
+    });
   }, []);
 
   const handleRefreshPage = () => {
