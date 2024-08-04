@@ -33,6 +33,7 @@ export default function AuthContextProvider({
     if (!isLogin) {
       client
         .init({
+          checkLoginIframe : false,
           onLoad: "login-required",
         })
         .then((res) => {
