@@ -1,6 +1,6 @@
 # Collabe - Real time collaboratorative whiteboard
 
-Experience seamless collaboration with our Real-Time Collaborative Whiteboard, designed for developers, teams, and educators who value efficiency and teamwork. This advanced platform offers a robust set of features to streamline your collaborative efforts, whether you are brainstorming, planning, or teaching.
+Real-Time Collaborative Whiteboard, designed for developers, teams, and educators who value efficiency and teamwork. This advanced platform offers a robust set of features to streamline your collaborative efforts, whether you are brainstorming, planning, or teaching.
 
 ## Features
 
