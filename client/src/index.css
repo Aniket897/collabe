@@ -43,14 +43,14 @@ body {
 
 .tools {
   top: 80px;
-  width: 70px;
+  width: 200px;
   left: 20px;
   padding: 5px;
+  font-size: 12px;
 }
 
 .toolItem {
   padding: 5px;
-  width: 100%;
   background: white;
   display: flex;
   flex-direction: column;
@@ -81,8 +81,7 @@ body {
 
 .header {
   top: 0px;
-  margin: 10px 20px;
-  width: 95%;
+  width: 100vw;
   padding: 10px;
   background: white;
 }
@@ -182,4 +181,20 @@ body {
   cursor: pointer;
   padding: 5px;
   width: 40px;
+}
+
+.colorsContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: -10px;
+}
+
+.colorCard {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border-color: transparent;
+  border: 1px solid;
 }

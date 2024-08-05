@@ -1,4 +1,4 @@
-import express , {Request , Response}  from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
@@ -19,11 +19,11 @@ app.use(
 );
 
 // Health route
-app.get("/health" , (req :Request , resp : Response ) => {
+app.get("/health", (req: Request, resp: Response) => {
   resp.status(200).json({
-    message : "Server is up and running"
-  })
-})
+    message: "Server is up and running",
+  });
+});
 
 const server = http.createServer(app);
 const io = new Server(server, {

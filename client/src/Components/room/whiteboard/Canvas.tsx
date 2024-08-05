@@ -19,6 +19,7 @@ interface CanvasProps {
   elements: CanvasElement[];
   tool: string;
   socket: Socket;
+  size: 5 | 10 | 15;
 }
 
 const Canvas: React.FC<CanvasProps> = ({
@@ -29,6 +30,7 @@ const Canvas: React.FC<CanvasProps> = ({
   elements,
   tool,
   socket,
+  size,
 }) => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [searchParamas] = useSearchParams();
@@ -59,7 +61,6 @@ const Canvas: React.FC<CanvasProps> = ({
     }
   }, [color]);
 
-  // handling real time cursors
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     const { offsetX, offsetY } = e.nativeEvent;
@@ -72,12 +73,13 @@ const Canvas: React.FC<CanvasProps> = ({
           path: [[offsetX, offsetY]],
           stroke: color,
           element: tool,
+          size,
         },
       ]);
     } else {
       setElements((prevElements) => [
         ...prevElements,
-        { offsetX, offsetY, stroke: color, element: tool },
+        { offsetX, offsetY, stroke: color, element: tool, size },
       ]);
     }
     setIsDrawing(true);
@@ -99,7 +101,7 @@ const Canvas: React.FC<CanvasProps> = ({
           generator.rectangle(ele.offsetX, ele.offsetY, ele.width, ele.height, {
             stroke: ele.stroke,
             roughness: 0,
-            strokeWidth: 5,
+            strokeWidth: 10,
           })
         );
       } else if (ele.element === "line") {
@@ -107,14 +109,14 @@ const Canvas: React.FC<CanvasProps> = ({
           generator.line(ele.offsetX, ele.offsetY, ele.width, ele.height, {
             stroke: ele.stroke,
             roughness: 0,
-            strokeWidth: 5,
+            strokeWidth: ele.size,
           })
         );
       } else if (ele.element === "pencil") {
         roughCanvas.linearPath(ele.path, {
           stroke: ele.stroke,
           roughness: 0,
-          strokeWidth: 5,
+          strokeWidth: ele.size,
         });
       }
     });
@@ -148,8 +150,8 @@ const Canvas: React.FC<CanvasProps> = ({
       userId: uid,
     });
 
+    
     // emit real time cursor
-
     socket.emit("cursor-move", {
       userId: uid,
       username: profile?.given_name,

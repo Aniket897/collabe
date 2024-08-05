@@ -22,8 +22,9 @@ const Room = () => {
   const ctx = useRef<CanvasRenderingContext2D | null>(null);
   const [elements, setElements] = useState<CanvasElement[]>([]);
   const [history, setHistory] = useState<CanvasElement[]>([]);
-  const [color, setColor] = useState("#000000");
+  const [color, setColor] = useState("black");
   const [tool, setTool] = useState("pencil");
+  const [size, setSize] = useState<5 | 10 | 15>(5);
 
   useEffect(() => {
     if (!socket) {
@@ -80,6 +81,7 @@ const Room = () => {
   };
 
   const undo = () => {
+    if (!elements.length) return;
     setHistory((prevHistory) => [
       ...prevHistory,
       elements[elements.length - 1],
@@ -90,6 +92,7 @@ const Room = () => {
   };
 
   const redo = () => {
+    if (!history.length) return;
     setElements((prevElements) => [
       ...prevElements,
       history[history.length - 1],
@@ -120,6 +123,7 @@ const Room = () => {
         elements={elements}
         tool={tool}
         socket={socket!}
+        size={size}
       />
       <Tools
         current={tool}
@@ -127,12 +131,14 @@ const Room = () => {
         handleRedo={redo}
         handleUndo={undo}
         color={color}
+        size={size}
         setColor={(color) => {
           setColor(color);
         }}
         setActive={(item) => {
           setTool(item);
         }}
+        setSize={(size) => setSize(size)}
       />
       <Header />
       <Chat />
